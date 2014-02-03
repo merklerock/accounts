@@ -1,0 +1,7 @@
+ensime 
+quit
+exit
+ensime generate
+exit
+ensime generate
+run

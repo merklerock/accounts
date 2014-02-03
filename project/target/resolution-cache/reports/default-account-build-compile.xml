@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="default"
+		module="account-build"
+		revision="0.1-SNAPSHOT"
+		extra-sbtVersion="0.13"
+		extra-scalaVersion="2.10"
+		conf="compile"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
+		date="20140123015949"/>
+	<dependencies>
+		<module organisation="org.ensime" name="ensime-sbt-cmd">
+			<revision name="0.1.2" status="release" pubdate="20130811183331" resolver="public" artresolver="public" homepage="http://github.com/aemoncannon/ensime-sbt-cmd" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="true" searched="true" default="false" conf="default(compile), default, compile, runtime, master" position="0">
+				<license name="BSD-style" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="successful" details="" size="1851" time="553" location="C:\Users\i-django\.ivy2\cache\scala_2.10\sbt_0.13\org.ensime\ensime-sbt-cmd\ivy-0.1.2.xml" searched="true" original-local-location="C:\Users\i-django\.ivy2\cache\scala_2.10\sbt_0.13\org.ensime\ensime-sbt-cmd\ivy-0.1.2.xml.original" origin-is-local="false" origin-location="http://repo1.maven.org/maven2/org/ensime/ensime-sbt-cmd_2.10_0.13/0.1.2/ensime-sbt-cmd-0.1.2.pom"/>
+				<caller organisation="default" name="account-build" conf="compile" rev="0.1.2" rev-constraint-default="0.1.2" rev-constraint-dynamic="0.1.2" callerrev="0.1-SNAPSHOT" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<artifacts>
+					<artifact name="ensime-sbt-cmd" type="jar" ext="jar" status="no" details="" size="135669" time="0" location="C:\Users\i-django\.ivy2\cache\scala_2.10\sbt_0.13\org.ensime\ensime-sbt-cmd\jars\ensime-sbt-cmd-0.1.2.jar">
+						<origin-location is-local="false" location="http://repo1.maven.org/maven2/org/ensime/ensime-sbt-cmd_2.10_0.13/0.1.2/ensime-sbt-cmd-0.1.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="play" name="sbt-plugin">
+			<revision name="2.1.0" error="not found" extra-sbtVersion="0.13" extra-scalaVersion="2.10" downloaded="false" searched="false" conf="default(compile)" position="-1">
+				<caller organisation="default" name="account-build" conf="compile" rev="2.1.0" rev-constraint-default="2.1.0" rev-constraint-dynamic="2.1.0" callerrev="0.1-SNAPSHOT" extra-sbtVersion="0.13" extra-scalaVersion="2.10"/>
+				<artifacts>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>
