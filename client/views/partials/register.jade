@@ -1,0 +1,39 @@
+h1 Start with Merklerock.
+form.form-horizontal(ng-submit="register()", name="registerForm", role="form")
+    .form-group
+        label.control-label.col-sm-2(for="xnym") Xnym
+        .col-sm-10
+            input.form-control(type="text", data-ng-model="xnym", placeholder="Xnym", name="xnym", required, data-ng-minlength="27", data-ng-maxlength="35", autofocus)
+    .form-group
+        label.control-label.col-sm-2(for="vanitygen") ...or use a browser generated Xnym
+        .col-sm-10
+            a.btn.btn-default(href="", data-ng-click="accountsTools('vanitygen')")
+                i.fa.fa-facebook
+                |  Generate
+    .form-group
+        label.control-label.col-sm-2(for="password") Password
+        .col-sm-10
+            input.form-control(type="password", data-ng-model="password", placeholder="Password", name="password", required, data-ng-minlength="8", data-ng-maxlength="60")
+    .form-group
+        label.control-label.col-sm-2(for="retypepassword") Retype password
+        .col-sm-10
+            input.form-control(type="password", data-ng-model="repassword", placeholder="Retype password", name="repassword", required, data-ng-minlength="8", data-ng-maxlength="60")
+    .form-group
+        .col-sm-offset-2.col-sm-10
+            .checkbox
+                label(for="tos").checkbox
+                    input(type="checkbox", data-ng-model="tos", name="tos")
+                    | I have read and accept Merklerock terms of service
+    .form-group
+        .col-sm-offset-2.col-sm-10
+            button.btn(type="submit", data-ng-disabled="registerForm.$invalid") Submit
+
+    .alert.alert-danger(ng-show="registerForm.$invalid && registerForm.$dirty")
+        strong Please correct the following errors:
+        ul
+            li(ng-show="registerForm.xnym.$error.required") xnym is required
+            li(ng-show="registerForm.xnym.$error.minlength") xnym has to be at least 27 character long
+            li(ng-show="registerForm.xnym.$error.maxlength") xnym has to be at most 35 character long
+            li(ng-show="registerForm.password.$error.required") Password is required
+            li(ng-show="registerForm.password.$error.minlength") Password must be at least 8 characters long
+            li(ng-show="registerForm.password.$error.maxlength") Password must be at most 60 characters long
