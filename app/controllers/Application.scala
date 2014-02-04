@@ -38,9 +38,45 @@ object Application extends Controller with Secured {
 	    Ok.withNewSession
 	}
 
-  def index = Action {
-    Ok(views.html.index("Your new application is ready."))
-  }
+  	def index = Action {
+   		Ok(views.html.index("Your new application is ready."))
+  	}
+
+	val signupForm = Form(
+	    tuple(
+	      "xnym" -> text verifying pattern("/^[13n][1-9A-Za-z][^OIl]{20,40}/".r, error="A valid XPM Address is required"),
+	      "password" -> nonEmptyText(minLength = 8, maxLenght = 64),
+	      "tos" -> nonEmptyText
+	    )
+	) 
+
+	/**
+	 * Register a new Account
+	 * http://blog.knoldus.com/2013/01/13/design-forms-in-play2-0-using-scala-and-mongodb/
+	 */
+	def registerAccount = Action { implicit request =>
+		signupForm.bindFromRequest.fold(
+			errors => BadRequest(views.html.signUpForm(errors, "There is some error")),
+			signupForm => {
+			    User.findAccountByXnym(signupForm.xnym).isEmpty match {
+			      case false =>
+			        Ok(views.html.signUpForm(Application.signupForm, "This account is already registered"))
+			      case true =>
+			      	//create an otp
+			      	//define status => suspended
+			      	//define role => user
+			        val accountEntity = AccountEntity(new ObjectId, signupForm.xnym, signupForm.password, signUpForm.tos, otp, status, role)
+			        Account.createAccount(accountEntity)
+			        Ok(views.html.accountDetail(accountEntity))
+			    }
+
+			}
+		)
+
+	}
+
+
+	val signupData = signupForm.bindFromRequest.get
   
 }
 

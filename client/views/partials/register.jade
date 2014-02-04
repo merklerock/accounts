@@ -26,6 +26,9 @@ form.form-horizontal(ng-submit="register()", name="registerForm", role="form")
                     | I have read and accept Merklerock terms of service
     .form-group
         .col-sm-offset-2.col-sm-10
+            p(vc-recaptcha, tabindex="3", theme="clean", key="=== REPLACE THIS WITH YOUR PUBLIC KEY ===") 
+    .form-group
+        .col-sm-offset-2.col-sm-10
             button.btn(type="submit", data-ng-disabled="registerForm.$invalid") Submit
 
     .alert.alert-danger(ng-show="registerForm.$invalid && registerForm.$dirty")

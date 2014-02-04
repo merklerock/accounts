@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .controller('NavCtrl', ['$rootScope', '$scope', '$location', 'Auth', function($rootScope, $scope, $location, Auth) {
     $scope.user = Auth.user;
     $scope.userRoles = Auth.userRoles;
@@ -17,7 +17,7 @@ angular.module('angular-client-side-auth')
     };
 }]);
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .controller('LoginCtrl',
 ['$rootScope', '$scope', '$location', '$window', 'Auth', function($rootScope, $scope, $location, $window, Auth) {
 
@@ -38,20 +38,22 @@ angular.module('angular-client-side-auth')
     };
 }]);
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .controller('HomeCtrl',
 ['$rootScope', function($rootScope) {
 
 }]);
 
-angular.module('angular-client-side-auth')
+//https://github.com/VividCortex/angular-recaptcha/blob/master/demo/reccommended.html
+
+angular.module('account-client')
 .controller('RegisterCtrl',
-['$rootScope', '$scope', '$location', 'Auth', function($rootScope, $scope, $location, Auth) {
+['$rootScope', '$scope', '$location', 'Auth', function($rootScope, $scope, $location, Auth, vcRecaptchaServices) {
     $scope.role = Auth.userRoles.user;
     $scope.userRoles = Auth.userRoles;
 
-    $scope.register = function() {
-        Auth.register({
+    $scope.signup = function() {
+        Auth.signup({
                 username: $scope.username,
                 password: $scope.password,
                 role: $scope.role
@@ -65,13 +67,13 @@ angular.module('angular-client-side-auth')
     };
 }]);
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .controller('PrivateCtrl',
 ['$rootScope', function($rootScope) {
 }]);
 
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .controller('AdminCtrl',
 ['$rootScope', '$scope', 'Users', 'Auth', function($rootScope, $scope, Users, Auth) {
     $scope.loading = true;

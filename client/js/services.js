@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .factory('Auth', function($http, $cookieStore){
 
     var accessLevels = routingConfig.accessLevels
@@ -25,8 +25,8 @@ angular.module('angular-client-side-auth')
                 user = currentUser;
             return user.role.title == userRoles.user.title || user.role.title == userRoles.admin.title;
         },
-        register: function(user, success, error) {
-            $http.post('/register', user).success(function(res) {
+        signup: function(user, success, error) {
+            $http.post('/signup', user).success(function(res) {
                 changeUser(res);
                 success();
             }).error(error);
@@ -59,7 +59,7 @@ angular.module('angular-client-side-auth')
     };
 });
 
-angular.module('angular-client-side-auth')
+angular.module('account-client')
 .factory('Users', function($http) {
     return {
         getAll: function(success, error) {

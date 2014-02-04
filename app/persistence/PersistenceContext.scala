@@ -1,35 +1,22 @@
-package persistence
+package persistence 
 
-/**
- * Created by i-django on 03/06/13.
- */
-import org.mybatis.scala.config._
-import org.mybatis.scala.session.Session
-import play.api.Play.current
-import play.api.db.DB._
+import net.fwbrasil.activate.ActivateContext
+import net.fwbrasil.activate.storage.memory.TransientMemoryStorage
+import net.fwbrasil.activate.storage.relational.async.AsyncPostgreSQLStorage
+import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
+import com.github.mauricio.async.db.Configuration
 
-object PersistenceContext {
-  //== Define mybatis session configuration ==//
-  val conf =
-    Configuration(
-      Environment(
-        "default",
-        new ManagedTransactionFactory(),
-        getDataSource()
-      )
-    )
+object computerPersistenceContext extends ActivateContext {
 
-  //== Register managed DAOs ==//
-  conf ++= UserStore
+    val storage = new AsyncPostgreSQLStorage {
+        def configuration =
+            new Configuration(
+                username = "account-app",
+                host = "pgsql.db.services.merklerock.com",
+                password = Some("postgres"),
+                database = Some("accounts"))
+        lazy val objectFactory = new PostgreSQLConnectionFactory(configuration)
+    }
 
-  //== Init mybatis context ==//
-  val mybatis = conf.createPersistenceContext
-
-  //== Define a few methods to use in your Play code ==//
-
-  def withConnection[A] (block: Session => A) : A
-  = mybatis.readOnly(block)
-
-  def withTransaction[A] (block: Session => A) : A
-  = mybatis.transaction(block)
 }
+
