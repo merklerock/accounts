@@ -6,7 +6,7 @@ import net.fwbrasil.activate.storage.relational.async.AsyncPostgreSQLStorage
 import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
 import com.github.mauricio.async.db.Configuration
 
-object computerPersistenceContext extends ActivateContext {
+object accountsPersistenceContext extends ActivateContext {
 
     val storage = new AsyncPostgreSQLStorage {
         def configuration =

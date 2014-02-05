@@ -1,25 +1,9 @@
 package srp
-import net.fwbrasil.activate.ActivateContext
-import com.github.mauricio.async.db.Configuration
-import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
-import net.fwbrasil.activate.storage.relational.async.AsyncPostgreSQLStorage
 
 import com.merklerock.common.SRPServer
 import java.io._
 
 case class AccountData(accountName:String, s:Array[Byte], v:Array[Byte])
-
-object asyncPostgreSQLContext extends ActivateContext {
-    val storage = new AsyncPostgreSQLStorage {
-        def configuration =
-            new Configuration(
-                username = "user",
-                host = "localhost",
-                password = Some("password"),
-                database = Some("database_name"))
-        lazy val objectFactory = new PostgreSQLConnectionFactory(configuration)
-    }
-}
 
 /**
  * Need this class to update the saved data file. 
@@ -36,16 +20,15 @@ class AppendableObjectOutputStream(out:OutputStream) extends ObjectOutputStream(
 /**
  * The class provides a sample implementation of SRPServer where the data is saved in database,
  * and the session details are hold in couchbase.
+ * is bypassed by account data
  */
 object MerkleRockSRPServer extends SRPServer{
 
   var cache:Map[String, AccountData] = Map() 
   /**
-   * Saves the account credentials provided in file.
+   * Saves the account credentials provided in database.
    */
   override def save(accountName:String, s:Array[Byte], v:Array[Byte]):Unit = {
-    val file = new File("account.data");
-    def fileOs = new FileOutputStream(file.getName(),true);
     if(!hasAccount(accountName)){
 	  var out:ObjectOutputStream = null
       if(file.exists()){

@@ -54,24 +54,25 @@ object Application extends Controller with Secured {
 	 * Register a new Account
 	 * http://blog.knoldus.com/2013/01/13/design-forms-in-play2-0-using-scala-and-mongodb/
 	 */
-	def registerAccount = Action { implicit request =>
-		signupForm.bindFromRequest.fold(
-			errors => BadRequest(views.html.signUpForm(errors, "There is some error")),
-			signupForm => {
-			    User.findAccountByXnym(signupForm.xnym).isEmpty match {
-			      case false =>
-			        Ok(views.html.signUpForm(Application.signupForm, "This account is already registered"))
-			      case true =>
-			      	//create an otp
-			      	//define status => suspended
-			      	//define role => user
-			        val accountEntity = AccountEntity(new ObjectId, signupForm.xnym, signupForm.password, signUpForm.tos, otp, status, role)
-			        Account.createAccount(accountEntity)
-			        Ok(views.html.accountDetail(accountEntity))
-			    }
+	def registerAccount = Action.async { implicit request =>
+		asyncTransactionalChain { implicit ctx =>
+			signupForm.bindFromRequest.fold(
+				errors => BadRequest(views.html.signUpForm(errors, "There is some error")),
+				signupForm => {
+				    Accounts.getAccountbyXnym(signupForm.xnym).isEmpty match {
+				      case false =>
+				        Ok(views.html.signUpForm(Application.signupForm, "This account is already registered"))
+				      case true =>
+				      	//create an otp
+				      	//define status => suspended
+				      	//define role => user can only be changed on update
+				        val account = Account(signupForm.xnym, signupForm.s, signupForm.v, Account.generateOTP, None, signupForm.tos, 0, "user", None)
+				        Ok(views.html.registerDetail(account))
+				    }
 
-			}
-		)
+				}
+			)
+		}
 
 	}
 
