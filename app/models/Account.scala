@@ -24,6 +24,12 @@ class Account(
       extends Entity
 
 object Account {
+
+  def getAccountByXnym(xnym: String) = 
+    query {
+      (account: Account) => 
+        where(account.xnym :== xnym) select (account) orderBy (account.xnym) limit(1)
+    }
   
 }
 

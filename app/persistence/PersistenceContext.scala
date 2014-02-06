@@ -6,13 +6,14 @@ import net.fwbrasil.activate.storage.relational.async.AsyncPostgreSQLStorage
 import com.github.mauricio.async.db.postgresql.pool.PostgreSQLConnectionFactory
 import com.github.mauricio.async.db.Configuration
 
-object accountsPersistenceContext extends ActivateContext {
+object accountPersistenceContext extends ActivateContext {
 
     val storage = new AsyncPostgreSQLStorage {
         def configuration =
             new Configuration(
-                username = "account-app",
-                host = "pgsql.db.services.merklerock.com",
+                username = "mr-account",
+                //host = "pgsql.db.services.merklerock.com",
+                host = "localhost",
                 password = Some("postgres"),
                 database = Some("accounts"))
         lazy val objectFactory = new PostgreSQLConnectionFactory(configuration)

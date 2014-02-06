@@ -10,7 +10,7 @@ import play.api.templates.Html
 
 /**
  * This class provides the required authentication check to allow a request to
- * pass through. This uses the MerklerRockSRPServer to authenticate. 
+ * pass through. This uses the MerklerockSRPServer to authenticate. 
  */
 object Auth {
   val UTF8 = Charset.forName("UTF-8")

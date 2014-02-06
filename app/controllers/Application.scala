@@ -51,23 +51,27 @@ object Application extends Controller with Secured {
 	) 
 
 	/**
-	 * Register a new Account
+	 * request for a new Account
+	 * The input username and password are used to save 
+	 * the credentials by MerklerockSRPServer.
 	 * http://blog.knoldus.com/2013/01/13/design-forms-in-play2-0-using-scala-and-mongodb/
 	 */
-	def registerAccount = Action.async { implicit request =>
+	def signup = Action.async { implicit request =>
 		asyncTransactionalChain { implicit ctx =>
 			signupForm.bindFromRequest.fold(
+				
 				errors => BadRequest(views.html.signUpForm(errors, "There is some error")),
+				
 				signupForm => {
-				    Accounts.getAccountbyXnym(signupForm.xnym).isEmpty match {
+				    Accounts.getAccountbyXnym(signup.xnym).isEmpty match {
+				      
 				      case false =>
-				        Ok(views.html.signUpForm(Application.signupForm, "This account is already registered"))
+				        Ok(views.html.signup(Application.signupForm, "This account is already registered"))
+				      
 				      case true =>
-				      	//create an otp
-				      	//define status => suspended
-				      	//define role => user can only be changed on update
-				        val account = Account(signupForm.xnym, signupForm.s, signupForm.v, Account.generateOTP, None, signupForm.tos, 0, "user", None)
-				        Ok(views.html.registerDetail(account))
+				      	//persist the new account using SRP protocol
+				        val otp = MerklerockSRPServer.save(signup.xnym,signup.password,signup.tos)
+				        Ok(views.html.registerDetail(signup.xnym,otp))
 				    }
 
 				}
